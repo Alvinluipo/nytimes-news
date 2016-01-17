@@ -18,12 +18,12 @@ class NewsScrape::CLI
   def menu
     input=nil
     while input !="exit"
-      puts "enter the number of the news you like to read:"
+      puts "enter the number of the news you like to read or type LIST to list the news or EXIT to exit. "
       input=gets.strip.downcase
       
       if input.to_i > 0
-        the_story= @stories[input.to_i-1]
-        puts "#{i}. #{story.title} - #{story.author}"
+        the_story = @stories[input.to_i-1]
+        puts "#{the_story.title} - #{the_story.author}\n #{the_story.summary}"
       elsif input=="list"
         list_news
       else

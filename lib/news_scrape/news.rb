@@ -1,6 +1,7 @@
+
 class NewsScrape::News
 
-  attr_accessor :title, :article_url, :author
+  attr_accessor :title, :summary, :author
 
   @@stories = []
 
@@ -11,16 +12,19 @@ class NewsScrape::News
 
   def self.today 
     self.scrape_all
+    @@stories
   end
 
   def self.scrape_all
     doc = Nokogiri::HTML(open("http://www.nytimes.com"))
     doc.search("div .span-ab-layout div .collection").each do |story|
       s = self.new
-      s.title = doc.search("h2.story-heading").text
-      s.author = doc.search("p.byline").text
-      s.article_url = doc.search("h2.story-heading a").attr("href")
+      s.title = story.search("h2.story-heading").text.strip
+      s.author = story.search("p.byline").text.strip
+      s.summary = story.search("p.summary").text.strip
+      
       @@stories << s
+
     end
   end
 
